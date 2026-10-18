@@ -1,10 +1,10 @@
-# BLACKSITE
+# Aegis
 
-BLACKSITE is a local-first cybersecurity investigation workspace built with React, TypeScript, and Vite. It is designed as a polished demonstration environment for threat hunting workflows: indicator investigation, attack-path exploration, vulnerability review, event triage, detection-rule testing, forensic text analysis, asset inventory, case management, and report export.
+Aegis is a local-first cybersecurity investigation workspace built with React, TypeScript, and Vite. It is designed as a polished demonstration environment for threat hunting workflows: indicator investigation, attack-path exploration, vulnerability review, event triage, detection-rule testing, forensic text analysis, asset inventory, case management, and report export.
 
 ## Current scope
 
-- Responsive command-center interface with an explicit `DEMO MODE · REAL API DATA ONLY` label
+- Responsive Aegis command-center interface with an explicit `DEMO MODE · REAL API DATA ONLY` label
 - Backend-backed indicator investigations for IP, URL, domain, and file hashes
 - Local file hashing with an explicit browser action (the selected file is not sent until submitted)
 - Local IOC extraction and JSON/CSV log analysis
@@ -34,7 +34,7 @@ pip install -r backend/requirements.txt
 uvicorn app.main:app --app-dir backend --reload
 ```
 
-The API creates `data/blacksite.db` automatically. The frontend uses
+The API creates the existing `data/blacksite.db` compatibility database automatically. The frontend uses
 `http://127.0.0.1:8000` by default.
 
 Open the URL printed by Vite. For a production build:

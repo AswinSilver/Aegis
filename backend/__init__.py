@@ -1,1 +1,1 @@
-"""BLACKSITE backend package."""
+"""Aegis backend package."""

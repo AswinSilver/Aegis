@@ -92,7 +92,7 @@ def test_cases_assets_graph_and_reports(client):
     assert graph.status_code == 200
     assert {node["kind"] for node in graph.json()["nodes"]} >= {"case", "asset", "event"}
     assert any(edge["relation"] == "contains_asset" for edge in graph.json()["edges"])
-    assert client.get("/api/graph.json").headers["content-disposition"].endswith("blacksite-graph.json")
+    assert client.get("/api/graph.json").headers["content-disposition"].endswith("aegis-graph.json")
 
     report = client.get(f"/api/reports/cases/{case_id}.json")
     assert report.status_code == 200

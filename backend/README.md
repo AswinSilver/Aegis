@@ -1,7 +1,7 @@
-# BLACKSITE backend
+# Aegis backend
 
 The backend is a local-first FastAPI service. It uses SQLite at the project-relative
-`data/blacksite.db` path by default and creates the schema on startup. It does not
+`data/blacksite.db` compatibility path by default and creates the schema on startup. It does not
 seed synthetic records.
 
 From the project root:

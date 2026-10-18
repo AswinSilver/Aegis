@@ -1,4 +1,4 @@
-# BLACKSITE implementation audit
+# Aegis implementation audit
 
 This audit records the state of the repository after wiring the existing UI to the local backend. It is intentionally explicit about what is real, what is optional, and what remains outside the current scope.
 

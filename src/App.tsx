@@ -451,7 +451,7 @@ function App() {
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `blacksite-case-${caseId}.${format}`;
+       link.download = `aegis-case-${caseId}.${format}`;
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -470,7 +470,7 @@ function App() {
       <aside className="sidebar">
         <div className="brand-lockup">
           <div className="brand-mark"><Shield size={18} /></div>
-          <div><strong>BLACKSITE</strong><span>LOCAL INVESTIGATION</span></div>
+           <div><strong>AEGIS</strong><span>LOCAL INVESTIGATION</span></div>
           <button className="icon-button mobile-close" onClick={() => setMobileNavOpen(false)} aria-label="Close menu"><X size={18} /></button>
         </div>
 
@@ -500,21 +500,15 @@ function App() {
           <div className="progress-track"><i style={{ width: statusReady ? '100%' : healthLoading ? '50%' : '0%' }} /></div>
           <p><Activity size={14} /> DEMO MODE · REAL DATA ONLY</p>
         </div>
-        <div className="sidebar-user">
-          <div className="profile-avatar">BS</div>
-          <div><strong>BLACKSITE operator</strong><span>Backend-connected workspace</span></div>
-          <button className="icon-button" onClick={() => changeView('settings')} aria-label="Open settings"><ChevronRight size={15} /></button>
-        </div>
       </aside>
 
       <main className="main-area">
         <header className="topbar">
           <button className="icon-button mobile-menu" onClick={() => setMobileNavOpen(true)} aria-label="Open menu"><Menu size={19} /></button>
-          <div className="breadcrumb"><span>BLACKSITE</span><ChevronRight size={14} /><strong>{viewLabels[activeView]}</strong></div>
+           <div className="breadcrumb"><span>AEGIS</span><ChevronRight size={14} /><strong>{viewLabels[activeView]}</strong></div>
           <div className="topbar-actions">
             <span className="curated-pill"><span className={`live-dot ${statusReady ? '' : 'status-offline'}`} /> {statusText} · DEMO MODE</span>
             <button className="help-button" onClick={() => changeView('settings')}><CircleHelp size={16} /> Status</button>
-            <div className="profile-avatar small">BS</div>
           </div>
         </header>
 
@@ -532,7 +526,7 @@ function App() {
           {activeView === 'graph' && <AttackGraphView graph={graph} loading={graphLoading} error={graphError} onRefresh={loadGraph} />}
           {activeView === 'settings' && <SettingsView health={health} loading={healthLoading} error={healthError} onRefresh={loadHealth} />}
         </div>
-        <footer className="app-footer"><span>BLACKSITE</span><span>DEMO MODE · REAL API DATA ONLY</span><span>Local-first investigation workspace</span></footer>
+         <footer className="app-footer"><span>AEGIS</span><span>DEMO MODE · REAL API DATA ONLY</span><span>Local-first investigation workspace</span></footer>
       </main>
     </div>
   );
@@ -555,7 +549,7 @@ function ThreatCommandView({ events, assets, cases, graph, vulnerabilitySearch, 
   return (
     <div className="view-stack">
       <section className="page-intro split-intro blacksite-hero">
-        <div><div className="eyebrow"><span className="eyebrow-mark" /> THREAT COMMAND · DEMO MODE</div><h1>Investigate with<br /><em>evidence, not theater.</em></h1><p>Operational signals below are loaded from the BLACKSITE backend. Empty collections stay empty until you import or create persisted records.</p></div>
+         <div><div className="eyebrow"><span className="eyebrow-mark" /> THREAT COMMAND · DEMO MODE</div><h1>Investigate with<br /><em>evidence, not theater.</em></h1><p>Operational signals below are loaded from the Aegis backend. Empty collections stay empty until you import or create persisted records.</p></div>
         <button className="button dark-button" onClick={onRefresh}><RefreshCw size={15} /> Refresh backend</button>
       </section>
 
@@ -1248,14 +1242,18 @@ function AttackGraphView({ graph, loading, error, onRefresh }: { graph: GraphRes
     if (!graph) return;
     setExporting(true);
     const blob = new Blob([JSON.stringify({ ...graph, exported_at: new Date().toISOString(), filtered_node_ids: [...visibleIds] }, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob); const link = document.createElement('a'); link.href = url; link.download = 'blacksite-graph.json'; document.body.appendChild(link); link.click(); link.remove(); URL.revokeObjectURL(url); setExporting(false);
+     const url = URL.createObjectURL(blob); const link = document.createElement('a'); link.href = url; link.download = 'aegis-graph.json'; document.body.appendChild(link); link.click(); link.remove(); URL.revokeObjectURL(url); setExporting(false);
   };
 
   return <div className="view-stack"><section className="page-intro split-intro"><div><div className="eyebrow"><span className="eyebrow-mark" /> ATTACK GRAPH</div><h1>Map only what<br /><em>the backend can connect.</em></h1><p>Relationships come from persisted records, analyst annotations, or deterministic indicator extraction. Search, filter, select, and trace a path without invented topology.</p></div><div className="blacksite-card-actions"><button className="button secondary-button" onClick={downloadGraph} disabled={!graph || exporting}><Download size={15} /> {exporting ? 'Exporting…' : 'Export JSON'}</button><button className="button dark-button" onClick={() => void onRefresh()}><RefreshCw size={15} /> Refresh graph</button></div></section>{loading ? <LoadingState label="Loading graph records…" /> : error ? <ErrorState message={error} onRetry={onRefresh} /> : !graph || graph.nodes.length === 0 ? <EmptyState title="No graph records" description="Create or import persisted records to give the graph a surface to map." icon={Network} /> : <><section className="filter-panel blacksite-filter-panel"><div className="filter-controls blacksite-filter-controls"><label className="search-field"><Search size={16} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search nodes, IDs, or sources" /></label><select className="graph-filter-select" value={kind} onChange={(event) => setKind(event.target.value)}><option value="all">All entity types</option>{[...new Set(graph.nodes.map((node) => node.kind))].map((item) => <option key={item} value={item}>{item}</option>)}</select><button className="filter-button" onClick={() => { setQuery(''); setKind('all'); setSelectedId(null); setPathStart(null); setPathEnd(null); }}>Reset</button></div><div className="result-count"><strong>{visibleNodes.length}</strong> of {graph.nodes.length} nodes · <strong>{visibleEdges.length}</strong> visible relationships</div></section><section className="blacksite-graph-layout"><div className="mini-panel blacksite-panel"><div className="mini-panel-heading"><div><div className="eyebrow">ENTITY SURFACE</div><h2>Select a node</h2></div><span className="blacksite-source-chip"><Network size={13} /> {graph.source}</span></div><div className="blacksite-node-grid">{visibleNodes.map((node) => <button className={`blacksite-node-card ${selectedId === node.id ? 'selected' : ''}`} key={node.id} onClick={() => setSelectedId(node.id)}><div className={`blacksite-node-icon ${node.kind}`}><Network size={14} /></div><div><strong>{node.label}</strong><span>{node.kind} · {node.id}</span><small>{node.source}</small></div></button>)}</div>{visibleNodes.length === 0 && <EmptyState title="No matching nodes" description="Change the search or entity-type filter." icon={Search} />}</div><div className="mini-panel blacksite-panel"><div className="mini-panel-heading"><div><div className="eyebrow">EVIDENCE RELATIONSHIPS</div><h2>{visibleEdges.length} visible edge{visibleEdges.length === 1 ? '' : 's'}</h2></div></div><div className="blacksite-path-controls"><select value={pathStart || ''} onChange={(event) => setPathStart(event.target.value || null)}><option value="">Path start</option>{visibleNodes.map((node) => <option value={node.id} key={`start-${node.id}`}>{node.label}</option>)}</select><ArrowRight size={14} /><select value={pathEnd || ''} onChange={(event) => setPathEnd(event.target.value || null)}><option value="">Path end</option>{visibleNodes.map((node) => <option value={node.id} key={`end-${node.id}`}>{node.label}</option>)}</select></div>{visibleEdges.length === 0 ? <EmptyState title="No relationships in filter" description="Persisted nodes may not have a deterministic connection yet." icon={GitBranch} /> : <div className="blacksite-edge-list">{visibleEdges.map((edge) => <button className={`blacksite-edge-row ${pathEdges.has(edge.id) ? 'path-highlight' : ''}`} key={edge.id} onClick={() => { setSelectedId(edge.source); setPathStart(edge.source); setPathEnd(edge.target); }}><div><strong>{edge.relation}</strong><span>{edge.source} → {edge.target}</span></div><small>{edge.source_attribution}</small><p>{edge.explanation}</p></button>)}</div>}</div></section>{selected && <section className="mini-panel blacksite-panel blacksite-selected-node"><div className="eyebrow">SELECTED ENTITY</div><h2>{selected.label}</h2><div className="blacksite-result-meta"><span>kind <strong>{selected.kind}</strong></span><span>source <strong>{selected.source}</strong></span></div><p>{selected.explanation}</p><pre>{JSON.stringify(selected.data, null, 2)}</pre></section>}</>}</div>;
 }
 
-function SettingsView({ health, loading, error, onRefresh }: { health: HealthResponse | null; loading: boolean; error: string | null; onRefresh: () => Promise<void> }) {
+function LegacySettingsView({ health, loading, error, onRefresh }: { health: HealthResponse | null; loading: boolean; error: string | null; onRefresh: () => Promise<void> }) {
   return <div className="view-stack"><section className="page-intro"><div><div className="eyebrow"><span className="eyebrow-mark" /> SETTINGS</div><h1>Know the connection<br /><em>before you trust the screen.</em></h1><p>BLACKSITE reports backend health and database status here. The interface does not claim that any external integration is configured or available.</p></div></section><section className="blacksite-settings-grid"><div className="mini-panel blacksite-panel"><div className="mini-panel-heading"><div><div className="eyebrow">BACKEND HEALTH</div><h2>API service</h2></div><button className="icon-button" onClick={() => void onRefresh()} aria-label="Refresh backend health"><RefreshCw size={16} /></button></div>{loading ? <LoadingState label="Checking backend health…" /> : error ? <ErrorState message={error} onRetry={onRefresh} /> : health ? <div className="blacksite-health-list"><HealthRow label="status" value={health.status} tone={statusClass(health.status)} /><HealthRow label="database" value={health.database} tone={statusClass(health.database)} /><HealthRow label="service" value={health.service} /><HealthRow label="version" value={health.version} /><HealthRow label="API URL" value={API_BASE_URL} /></div> : <EmptyState title="No health response" description="Refresh to check the configured backend endpoint." icon={CloudOff} />}</div><div className="mini-panel blacksite-panel"><div className="eyebrow">OPERATING MODE</div><h2>Demo mode is explicit</h2><div className="blacksite-mode-callout"><Sparkles size={18} /><div><strong>DEMO MODE · REAL API DATA ONLY</strong><p>There are no seeded frontend findings. Empty states represent empty backend collections, and unavailable states represent failed requests.</p></div></div><div className="blacksite-settings-note"><Database size={15} /><span>Records are managed by the local BLACKSITE API and SQLite database.</span></div><div className="blacksite-settings-note"><Shield size={15} /><span>Intelligence responses display the source attribution returned by the backend.</span></div></div></section></div>;
+}
+
+function SettingsView({ health, loading, error, onRefresh }: { health: HealthResponse | null; loading: boolean; error: string | null; onRefresh: () => Promise<void> }) {
+  return <div className="view-stack"><section className="page-intro"><div><div className="eyebrow"><span className="eyebrow-mark" /> SETTINGS</div><h1>Know the connection<br /><em>before you trust the screen.</em></h1><p>Aegis reports backend health and database status here. The interface does not claim that any external integration is configured or available.</p></div></section><section className="blacksite-settings-grid"><div className="mini-panel blacksite-panel"><div className="mini-panel-heading"><div><div className="eyebrow">BACKEND HEALTH</div><h2>API service</h2></div><button className="icon-button" onClick={() => void onRefresh()} aria-label="Refresh backend health"><RefreshCw size={16} /></button></div>{loading ? <LoadingState label="Checking backend health…" /> : error ? <ErrorState message={error} onRetry={onRefresh} /> : health ? <div className="blacksite-health-list"><HealthRow label="status" value={health.status} tone={statusClass(health.status)} /><HealthRow label="database" value={health.database} tone={statusClass(health.database)} /><HealthRow label="service" value={health.service} /><HealthRow label="version" value={health.version} /><HealthRow label="API URL" value={API_BASE_URL} /></div> : <EmptyState title="No health response" description="Refresh to check the configured backend endpoint." icon={CloudOff} />}</div><div className="mini-panel blacksite-panel"><div className="eyebrow">OPERATING MODE</div><h2>Aegis is local-first</h2><div className="blacksite-mode-callout"><Sparkles size={18} /><div><strong>DEMO MODE · REAL API DATA ONLY</strong><p>There are no seeded findings. Empty states represent empty backend collections, and unavailable states represent failed requests.</p></div></div><div className="blacksite-settings-note"><Database size={15} /><span>Records are managed by the local Aegis API and SQLite database.</span></div><div className="blacksite-settings-note"><Shield size={15} /><span>External intelligence providers are optional and source-attributed.</span></div></div></section></div>;
 }
 
 function HealthRow({ label, value, tone = 'neutral' }: { label: string; value: string; tone?: string }) {

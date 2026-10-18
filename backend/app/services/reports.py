@@ -119,7 +119,7 @@ def case_report_pdf(report: dict[str, Any]) -> bytes:
     document = SimpleDocTemplate(output, pagesize=letter, rightMargin=0.5 * inch, leftMargin=0.5 * inch, topMargin=0.5 * inch, bottomMargin=0.5 * inch)
     styles = getSampleStyleSheet()
     case = report["case"]
-    story = [Paragraph("BLACKSITE Case Report", styles["Title"]), Paragraph(case["title"], styles["Heading2"]), Paragraph(f"Status: {case['status']} · Priority: {case['priority']}", styles["BodyText"]), Spacer(1, 12)]
+    story = [Paragraph("Aegis Case Report", styles["Title"]), Paragraph(case["title"], styles["Heading2"]), Paragraph(f"Status: {case['status']} · Priority: {case['priority']}", styles["BodyText"]), Spacer(1, 12)]
     rows = [["Section", "Identifier", "Source", "Summary"]]
     rows.append(["Case", str(case["id"]), "database.cases", case["title"]])
     rows.extend([["Asset", str(item["id"]), "database.assets", item["name"]] for item in report["assets"]])

@@ -60,7 +60,7 @@ async def lifespan(_application: FastAPI):
     yield
 
 
-app = FastAPI(title="BLACKSITE Backend", version=APP_VERSION, lifespan=lifespan)
+app = FastAPI(title="Aegis Backend", version=APP_VERSION, lifespan=lifespan)
 # Create the local schema during import as well as startup so lightweight ASGI
 # clients that do not enter a lifespan context still receive a usable API.
 init_db()
@@ -323,7 +323,7 @@ def _http_metadata(target: str, port: int | None, timeout: float) -> dict[str, A
         def redirect_request(self, req, fp, code, msg, headers, newurl):  # type: ignore[no-untyped-def]
             return None
 
-    request = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "BLACKSITE-authorized-assessment/1.0"})
+    request = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "Aegis-authorized-assessment/1.0"})
     opener = urllib.request.build_opener(_NoRedirect)
     try:
         with opener.open(request, timeout=timeout) as response:
@@ -383,7 +383,7 @@ def health() -> dict[str, Any]:
         db_status = "unavailable"
     return {
         "status": "ok" if db_status == "ok" else "degraded",
-        "service": "blacksite-backend",
+        "service": "aegis-backend",
         "version": APP_VERSION,
         "database": db_status,
         "providers": {"abuseipdb": bool(os.getenv("ABUSEIPDB_API_KEY", "").strip()), "virustotal": bool(os.getenv("VIRUSTOTAL_API_KEY", "").strip()), "urlhaus": bool(os.getenv("URLHAUS_API_URL", "").strip()) or os.getenv("URLHAUS_ENABLED", "").lower() in {"1", "true", "yes"}, "nvd": nvd_configured()},
@@ -899,7 +899,7 @@ def graph_json(case_id: int | None = None, db: Session = Depends(get_db)) -> Res
         result = build_graph(db, case_id)
     except LookupError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
-    return JSONResponse(content=result, headers={"Content-Disposition": "attachment; filename=blacksite-graph.json"})
+    return JSONResponse(content=result, headers={"Content-Disposition": "attachment; filename=aegis-graph.json"})
 
 
 @app.get("/api/graph/export")
@@ -908,7 +908,7 @@ def graph_export(case_id: int | None = None, db: Session = Depends(get_db)) -> R
         result = build_graph(db, case_id)
     except LookupError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
-    return JSONResponse(content=result, headers={"Content-Disposition": "attachment; filename=blacksite-graph.json"})
+    return JSONResponse(content=result, headers={"Content-Disposition": "attachment; filename=aegis-graph.json"})
 
 
 @app.get("/api/graph/export.json")
@@ -917,7 +917,7 @@ def graph_export_json(case_id: int | None = None, db: Session = Depends(get_db))
         result = build_graph(db, case_id)
     except LookupError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
-    return JSONResponse(content=result, headers={"Content-Disposition": "attachment; filename=blacksite-graph.json"})
+    return JSONResponse(content=result, headers={"Content-Disposition": "attachment; filename=aegis-graph.json"})
 
 
 @app.get("/api/reports/cases/{case_id}.json")

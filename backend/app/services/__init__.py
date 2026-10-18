@@ -1,1 +1,1 @@
-"""Small, side-effect-limited BLACKSITE services."""
+"""Small, side-effect-limited Aegis services."""

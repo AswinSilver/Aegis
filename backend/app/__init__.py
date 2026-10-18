@@ -1,1 +1,1 @@
-"""FastAPI application package for BLACKSITE."""
+"""FastAPI application package for Aegis."""

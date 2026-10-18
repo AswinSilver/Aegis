@@ -365,7 +365,7 @@ export async function request<T>(path: string, init: RequestInit = {}): Promise<
       throw new ApiError(`Request timed out after ${API_TIMEOUT_MS / 1000} seconds`, 408);
     }
     if (error instanceof TypeError) {
-      throw new ApiError('Backend is unavailable. Check that the BLACKSITE API is running.', 0);
+      throw new ApiError('Backend is unavailable. Check that the Aegis API is running.', 0);
     }
     throw error;
   } finally {
@@ -392,7 +392,7 @@ async function requestBlob(path: string): Promise<Blob> {
       throw new ApiError(`Request timed out after ${API_TIMEOUT_MS / 1000} seconds`, 408);
     }
     if (error instanceof TypeError) {
-      throw new ApiError('Backend is unavailable. Check that the BLACKSITE API is running.', 0);
+      throw new ApiError('Backend is unavailable. Check that the Aegis API is running.', 0);
     }
     throw error;
   } finally {
